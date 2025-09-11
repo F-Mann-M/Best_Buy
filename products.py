@@ -49,8 +49,9 @@ class Product:
         Updates the quantity of the product.
         In case of a problem (when? think about it), raises an Exception.
         """
-        if quantity > self._quantity:
+        if quantity >= self._quantity:
             print(f"Only {self._quantity} products are available in store :( ")
+            return None
         else:
             self._quantity -= quantity
             return self._price * quantity
