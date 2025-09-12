@@ -39,7 +39,7 @@ def make_an_order():
     print("\n\tYour Order\n\t___________")
     for key, product in product_table.items():
         print(f"{key}.\t{product._name},Price: {product._price},Quantity: {product._quantity}")
-    print("_" * 50)
+    print("_" * 30)
     print("When you want to finish order, enter empty text.")
 
     # prompt user to order (product and quantity)
