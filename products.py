@@ -4,10 +4,15 @@ class Product:
         try:
             self._name = str(name)
             self._price = float(price)
+            if float(price) < 0:
+                print("Price cannot be negative")
             self._quantity = int(quantity)
+            if int(quantity) < 0:
+                print("Quantity cannot be negative.")
             self._activ = True
-        except Exception as e:
-            print(f"Error: {e}")
+        except (ValueError, TypeError) as e:
+            print(f"Initialisation error: {e} ")
+            self._activ = False # deactivate product if somthing went wrong
 
     def get_quantity(self) -> int:
         """ Getter function for quantity. Retruns the quantity (int)"""
@@ -49,9 +54,18 @@ class Product:
         Updates the quantity of the product.
         In case of a problem (when? think about it), raises an Exception.
         """
-        if quantity >= self._quantity:
-            print(f"Only {self._quantity} products are available in store :( ")
-            return None
-        else:
+        try:
+            quantity = int(quantity)
+            if quantity <= 0:
+                print("Quantity must be greater than zero")
+            if not self._activ:
+                raise Exception("Product is not activ")
+            if quantity > self._quantity:
+                raise Exception(f"Not enough products are available.")
+            if quantity == 0:
+                self._activ = False # Products empty
             self._quantity -= quantity
             return self._price * quantity
+        except (ValueError, Exception) as e:
+            print(f"Error: {e}")
+            return 0
