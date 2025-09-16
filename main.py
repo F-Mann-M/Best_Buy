@@ -4,15 +4,18 @@ import store
 # setup initial stock of inventory
 product_list = [ products.Product("MacBook Air M2", price=1450, quantity=100),
                  products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-                 products.Product("Google Pixel 7", price=500, quantity=250)
+                 products.Product("Google Pixel 7", price=500, quantity=250), [349857, 983745, 987]
                ]
 best_buy = store.Store(product_list)
 
 def list_all_products():
     """ prints a list of all products in store along with price and quantity"""
     print("\n\tList of Products\n\t________________")
-    for index, product in enumerate(best_buy.get_all_products()):
-        print(f"{index + 1}.\t{product._name}, Price: {product._price}, Quantity: {product._quantity}")
+    if best_buy.get_all_products():
+        for index, product in enumerate(best_buy.get_all_products()):
+            print(f"{index + 1}.\t{product.show()}, Price: {product.get_price()}, Quantity: {product.get_quantity()}")
+    else:
+        print("No products available")
 
 
 def show_total_amount_in_store():
@@ -31,14 +34,19 @@ def make_an_order():
     shopping_list = []
     product_table = {}
 
+    print("\n\tYour Order\n\t___________")
+    if not best_buy.get_all_products():
+        print("No products available.")
+        return
+
     # creat dict to store dispatch table for all products available
     for index, product in enumerate(best_buy.get_all_products()):
         product_table[index + 1] = product
 
+
     # print menu
-    print("\n\tYour Order\n\t___________")
     for key, product in product_table.items():
-        print(f"{key}.\t{product._name},Price: {product._price},Quantity: {product._quantity}")
+        print(f"{key}.\t{product.show()},Price: {product.get_price()},Quantity: {product.get_quantity()}")
     print("_" * 30)
     print("When you want to finish order, enter empty text.")
 
@@ -90,12 +98,11 @@ def start():
         try:
             user_choice = int(input("Please choose a number: "))
             if user_choice not in menu_table:
-                print("Number {users_order} not in list.")
+                print(f"Number {user_choice} not in list.")
                 continue
             menu_table[user_choice][1]()
         except ValueError:
             print("please enter a number")
-
 
 
 def main():

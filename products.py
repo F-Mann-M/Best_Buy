@@ -1,21 +1,34 @@
 class Product:
 
     def __init__(self, name: str, price: float, quantity: int):
+
         try:
+            # Type validation
+            if not isinstance(name, str):
+                raise TypeError("Product name must be a string.")
+            if not isinstance(price, (int, float)):
+                raise TypeError("Price must be an int or a float.")
+            if not isinstance(quantity, int):
+                raise TypeError("Quantity must be an int.")
+
+            # Value validation
+            if float(price) < 0:
+                raise ValueError("Price cannot be negative")
+            if int(quantity) < 0:
+                raise ValueError("Quantity cannot be negative.")
+
+            # Initialize instance variable
             self._name = str(name)
             self._price = float(price)
-            if float(price) < 0:
-                print("Price cannot be negative")
             self._quantity = int(quantity)
-            if int(quantity) < 0:
-                print("Quantity cannot be negative.")
             self._activ = True
+
         except (ValueError, TypeError) as e:
             print(f"Initialisation error: {e} ")
             self._activ = False # deactivate product if somthing went wrong
 
     def get_quantity(self) -> int:
-        """ Getter function for quantity. Retruns the quantity (int)"""
+        """ Getter function for quantity. Returns the quantity (int)"""
         return self._quantity
 
 
@@ -32,6 +45,9 @@ class Product:
         return self._activ
 
 
+    def get_price(self):
+        return self._price
+
     def activate(self):
         """ Activates the product """
         self._activ = True
@@ -44,7 +60,7 @@ class Product:
 
     def show(self):
         """ prints a string that represents the product """
-        print(self._name)
+        return self._name
 
 
     def buy(self, quantity) -> float:
